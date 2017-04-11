@@ -1,6 +1,4 @@
-
 from scipy import optimize
-
 
 class trainer(object):
     def __init__(self, N):
@@ -28,7 +26,7 @@ class trainer(object):
         params0 = self.N.getParams()
 
         options = {'maxiter': 200, 'disp' : True}
-        _res = optimize.minimize(self.costFunctionWrapper, params0, jac=True, method='BFGS', \
+        _res = optimize.minimize(self.costFunctionWrapper, params0, jac=True, method='Newton-CG', \
                                  args=(X, y), options=options, callback=self.callbackF)
 
         self.N.setParams(_res.x)

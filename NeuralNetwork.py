@@ -9,7 +9,7 @@ inputs to each layer will be represent as a matrix for to simplify calculation.
 """
 class NeuralNetwork(object):
     #initialize ANN by taking an list of size for all the hidden layer in between
-    def __init__(self, inputSize=5, outputSize=1, hiddenLayersInfo=[2]):
+    def __init__(self, inputSize=5, outputSize=1, hiddenLayersInfo=[5,4]):
         #amount of inputs
         self.inputSize = inputSize
         #amount of hiddenLayers
@@ -65,9 +65,10 @@ class NeuralNetwork(object):
         dJdW.append(np.dot(self.a[-2].T, delta))
         for i in range(len(self.z)-2, 0, -1):
             delta = np.dot(delta, self.weightAssociated[i+1].T)*self.sigmoidP(self.z[i])
-            dJdW = [np.dot(self.a[i].T, delta)] + dJdW
+            dJdW.append(np.dot(self.a[i-1].T, delta))
         delta = np.dot(delta, self.weightAssociated[1].T)*self.sigmoidP(self.z[0])
-        dJdW = [np.dot(X.T, delta)] + dJdW
+        dJdW.append(np.dot(X.T, delta))
+        dJdW = dJdW[::-1]
         return dJdW
 
     """
